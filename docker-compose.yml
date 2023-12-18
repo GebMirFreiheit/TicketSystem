@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  web:
+    build: ./service
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@localhost:5433
+    restart: always
+    ports:
+      - '8001:8000'
+    depends_on:
+      - postgres-db
+  postgres-db:
+    image: postgres
+    container_name: postgres-db-container
+    ports:
+        - "5433:5432"
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+volumes:
+  postgres_db:
